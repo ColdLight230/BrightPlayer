@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Example of a call to a native method
-        binding.sampleText.text = stringFromJNI()
+        binding.sampleText.text = ffmpegConfigureInfo()
     }
 
     /**
@@ -24,6 +24,8 @@ class MainActivity : AppCompatActivity() {
      * which is packaged with this application.
      */
     external fun stringFromJNI(): String
+
+    external fun ffmpegConfigureInfo(): String
 
     companion object {
         // Used to load the 'me' library on application startup.

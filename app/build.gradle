@@ -14,9 +14,19 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        //配置cmake编译选项和支持的CPU指令集
         externalNativeBuild {
             cmake {
-                cppFlags ''
+                cppFlags "-std=c++11 -frtti -fexceptions"
+                abiFilters "armeabi-v7a"
+            }
+        }
+        ndk{
+            abiFilters "armeabi-v7a"
+        }
+        sourceSets {
+            main {
+                jniLibs.srcDirs = ["libs"]
             }
         }
     }
@@ -43,6 +53,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+    ndkVersion '21.4.7075529'
 }
 
 dependencies {
