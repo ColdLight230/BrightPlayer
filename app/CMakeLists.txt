@@ -10,10 +10,7 @@ cmake_minimum_required(VERSION 3.10.2)
 project("me")
 
 # 需要引入我们头文件,以这个配置的目录为基准
-include_directories(../../../libs/include)
-
-# 添加共享库搜索路径 (已经不推荐使用了)
-#link_directories(../../../libs/armeabi-v7a/)
+include_directories(libs/include)
 
 # 指定源文件目录
 #AUX_SOURCE_DIRECTORY(. SRC_LIST)
@@ -30,20 +27,6 @@ include_directories(../../../libs/include)
 #        # Provides a relative path to your source file(s).
 #        ${SRC_LIST})
 
-add_library(avcodec SHARED IMPORTED)
-set_target_properties(avcodec PROPERTIES IMPORTED_LOCATION ../../../libs/armeabi-v7a/libavcodec.so)
-
-add_library(avfilter SHARED IMPORTED)
-set_target_properties(avfilter PROPERTIES IMPORTED_LOCATION ../../../libs/armeabi-v7a/libavfilter.so)
-add_library(avformat SHARED IMPORTED)
-set_target_properties(avformat PROPERTIES IMPORTED_LOCATION ../../../libs/armeabi-v7a/libavformat.so)
-add_library(avutil SHARED IMPORTED)
-set_target_properties(avutil PROPERTIES IMPORTED_LOCATION ../../../libs/armeabi-v7a/libavutil.so)
-add_library(swresample SHARED IMPORTED)
-set_target_properties(swresample PROPERTIES IMPORTED_LOCATION ../../../libs/armeabi-v7a/libswresample.so)
-add_library(swscale SHARED IMPORTED)
-set_target_properties(swscale PROPERTIES IMPORTED_LOCATION ../../../libs/armeabi-v7a/libswscale.so)
-
 add_library( # Sets the name of the library.
         me
 
@@ -51,10 +34,20 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        native-lib.cpp)
+        src/main/cpp/native-lib.cpp)
 
-target_include_directories(me PRIVATE ../../../libs/include)
-
+add_library(avcodec SHARED IMPORTED)
+set_target_properties(avcodec PROPERTIES IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/libs/${ANDROID_ABI}/libavcodec.so)
+add_library(avfilter SHARED IMPORTED)
+set_target_properties(avfilter PROPERTIES IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/libs/${ANDROID_ABI}/libavfilter.so)
+add_library(avformat SHARED IMPORTED)
+set_target_properties(avformat PROPERTIES IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/libs/${ANDROID_ABI}/libavformat.so)
+add_library(avutil SHARED IMPORTED)
+set_target_properties(avutil PROPERTIES IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/libs/${ANDROID_ABI}/libavutil.so)
+add_library(swresample SHARED IMPORTED)
+set_target_properties(swresample PROPERTIES IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/libs/${ANDROID_ABI}/libswresample.so)
+add_library(swscale SHARED IMPORTED)
+set_target_properties(swscale PROPERTIES IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/libs/${ANDROID_ABI}/libswscale.so)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -75,32 +68,24 @@ find_library( # Sets the name of the path variable.
 
 target_link_libraries( # Specifies the target library.
         # 链接额外的 ffmpeg 的编译
+        me
 #        bright_player
         # 编解码(最重要的库)
-#        ${avcodec}
         avcodec
         # 滤镜特效处理库
-#        ${avfilter}
         avfilter
         # 封装格式处理库
-#        ${avformat}
         avformat
         # 工具库(大部分库都需要这个库的支持)
-#        ${avutil}
         avutil
         # 音频采样数据格式转换库
-#        ${swresample}
         swresample
         # 视频像素数据格式转换
-#        ${swscale}
         swscale
-#         链接 android ndk 自带的一些库
-#        ${android}
-#        android
+        # 链接 android ndk 自带的一些库
+        android
 
-        me
+
         # Links the target library to the log library
         # included in the NDK.
-#        ${log-lib}
-        log-lib
-        )
+        ${log-lib} )

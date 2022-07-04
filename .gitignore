@@ -22,6 +22,9 @@ release/
 .gradle/
 build/
 
+*.cxx
+app/.cxx/*
+
 # Local configuration file (sdk path, etc)
 local.properties
 

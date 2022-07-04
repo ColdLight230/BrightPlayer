@@ -2,8 +2,8 @@
 #include <string>
 
 extern "C" {
-#include <libavcodec/avcodec.h>
-#include <libavutil/avutil.h>
+    #include <libavcodec/avcodec.h>
+    #include <libavutil/avutil.h>
 }
 
 extern "C" JNIEXPORT jstring
@@ -16,8 +16,6 @@ Java_bright_me_MainActivity_stringFromJNI(
 extern "C"
 JNIEXPORT jstring
 Java_bright_me_MainActivity_ffmpegConfigureInfo(JNIEnv *env, jobject thiz) {
-    std::string info = "FfmpegConfigureInfo";
     const char *content = avcodec_configuration();
     return env->NewStringUTF(content);
-//    return env->NewStringUTF(info.c_str());
 }

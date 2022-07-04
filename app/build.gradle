@@ -24,11 +24,6 @@ android {
         ndk{
             abiFilters "armeabi-v7a"
         }
-        sourceSets {
-            main {
-                jniLibs.srcDirs = ["libs"]
-            }
-        }
     }
 
     buildTypes {
@@ -46,14 +41,13 @@ android {
     }
     externalNativeBuild {
         cmake {
-            path file('src/main/cpp/CMakeLists.txt')
+            path file('CMakeLists.txt')
             version '3.10.2'
         }
     }
     buildFeatures {
         viewBinding true
     }
-    ndkVersion '21.4.7075529'
 }
 
 dependencies {
